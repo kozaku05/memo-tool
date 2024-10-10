@@ -6,6 +6,7 @@ function add() {
     let memoMainInput = document.getElementById("memo-main");
     let memoTitle = document.getElementById("memo-title").value;
     let memoMain = document.getElementById("memo-main").value;
+    if(memoTitle){
     console.log(`メモのタイトルは:${memoTitle}`);
     console.log(`メモの本文は:${memoMain}`);
     memoNumber += 1;
@@ -28,10 +29,12 @@ function add() {
         storage.removeItem(`memoMain${this.id}`)
         load();
     };
-    memoTitleInput.value = ""; // 入力をリセット
-    memoMainInput.value = "";  // 入力をリセット
+    memoTitleInput.value = ""; 
+    memoMainInput.value = "";  
     memos.appendChild(createMemo);
-};
+}else{
+    alert("メモのタイトルを入力してください");
+}};
 
 window.onload = load();
 
