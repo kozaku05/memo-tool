@@ -1,11 +1,9 @@
 const storage = localStorage;
-let memoNumber = storage.getItem("memoNumber");
-console.log(memoNumber);
-if (!memoNumber) {
-    storage.setItem("memoNumber", 0);
-};
+let memoNumber = parseInt(storage.getItem("memoNumber")) || 0;
 const memos = document.getElementById("memos");
 function add() {
+    let memoTitleInput = document.getElementById("memo-title");
+    let memoMainInput = document.getElementById("memo-main");
     let memoTitle = document.getElementById("memo-title").value;
     let memoMain = document.getElementById("memo-main").value;
     console.log(`メモのタイトルは:${memoTitle}`);
@@ -24,12 +22,17 @@ function add() {
     createMemo.appendChild(createTitle);
     createMemo.appendChild(createMain);
     createMemo.appendChild(createButton);
-    createButton.classList.add("btn");
     createButton.id = memoNumber;
+    createButton.onclick = function() {
+        storage.removeItem(`memoTitle${this.id}`)
+        storage.removeItem(`memoMain${this.id}`)
+        load();
+    };
+    memoTitleInput.value = ""; // 入力をリセット
+    memoMainInput.value = "";  // 入力をリセット
     memos.appendChild(createMemo);
 };
 
-// 読み込み
 window.onload = load();
 
 function load() {
@@ -48,14 +51,18 @@ function load() {
             createMemo.appendChild(createTitle);
             createMemo.appendChild(createMain);
             createMemo.appendChild(createButton);
-            createButton.classList.add("btn");
             createButton.id = i + 1;
+            createButton.onclick = function() {
+                storage.removeItem(`memoTitle${this.id}`)
+                storage.removeItem(`memoMain${this.id}`)
+                load();
+            };
             memos.appendChild(createMemo);
         }
     }
 }
 function reset() {
     storage.clear();
-    memoNumber=0;
+    memoNumber = 0;
     load();
 };
